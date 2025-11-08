@@ -1,62 +1,145 @@
 ---
 const { navbarActiveItemID } = Astro.props;
 const activeClasses = ["text-white", "opacity-100"];
-
-const links: Array<{
-  title: string;
-  id?: string;
-  url?: string;
-  new?: boolean;
-  redirect?: string;
-}> = [
-  {
-    title: "index.html",
-    id: "home",
-    url: "/",
-  },
-  {
-    title: "blog.sql",
-    id: "blog",
-    url: "/blog",
-  },
-  {
-    title: "astro.build",
-    redirect: "https://astro.build",
-  },
-];
 ---
 
 <header id="main-header" class="mb-8 px-6 mt-6">
+  <!-- Main Title -->
   <nav
     id="navigation-menu"
     aria-label="Main menu"
-    class="flex flex-col lg:flex-row justify-between items-start lg:items-center"
+    class="flex justify-center items-center mb-6"
   >
-    <span class="mb-4 lg:mb-0">
-      <a href="/" target="_self" class="text-white font-medium text-md">
-        terminus
-      </a>
-    </span>
-    <span class="flex flex-wrap gap-6 text-sm">
-      {
-        links.map((link) => {
-          return (
-            <a
-              href={link.redirect ? link.redirect : link.url}
-              target={link.redirect ? "_blank" : "_self"}
-              id={link.id}
-              class="text-gray-400 opacity-70 hover:opacity-100 transition-opacity duration-200"
-            >
-              {link.title}
-            </a>
-          );
-        })
-      }
-    </span>
+    <a href="/" target="_self" class="text-cyan-600 font-medium text-4xl">
+      <span id="typewriter"></span><span id="cursor" class="cursor">|</span>
+    </a>
+  </nav>
+
+  <!-- Mobile/Tablet Navigation Bar (hidden on desktop when sidebar is present) -->
+  <nav class="md:hidden border-t border-gray-600 pt-4">
+    <ul class="flex flex-wrap justify-center gap-4 text-sm">
+      <li>
+        <a
+          href="#about"
+          class="text-gray-400 hover:text-cyan-600 transition-colors"
+        >
+          About
+        </a>
+      </li>
+      <li>
+        <a
+          href="#contact"
+          class="text-gray-400 hover:text-cyan-600 transition-colors"
+        >
+          Contact
+        </a>
+      </li>
+      <li>
+        <a
+          href="#writeups"
+          class="text-gray-400 hover:text-cyan-600 transition-colors"
+        >
+          Writeups
+        </a>
+      </li>
+      <li>
+        <a
+          href="#flags"
+          class="text-gray-400 hover:text-cyan-600 transition-colors"
+        >
+          Flags
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://pwn.college"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-gray-400 hover:text-cyan-600 transition-colors"
+        >
+          pwn.college
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://hackthebox.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-gray-400 hover:text-cyan-600 transition-colors"
+        >
+          HTB
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://tryhackme.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-gray-400 hover:text-cyan-600 transition-colors"
+        >
+          THM
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://overthewire.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-gray-400 hover:text-cyan-600 transition-colors"
+        >
+          OTW
+        </a>
+      </li>
+    </ul>
   </nav>
 </header>
 
+<style>
+  .cursor {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script is:inline>
+  // Typewriter effect
+  const text = "rootzone.cfd";
+  const typewriterElement = document.getElementById("typewriter");
+  let index = 0;
+
+  function typeWriter() {
+    if (index < text.length) {
+      typewriterElement.textContent += text.charAt(index);
+      index++;
+      setTimeout(typeWriter, 150); // Adjust speed here (milliseconds per character)
+    } else {
+      // When done typing, wait 5 seconds then restart
+      setTimeout(resetAndType, 5000);
+    }
+  }
+
+  function resetAndType() {
+    // Clear the text
+    typewriterElement.textContent = "";
+    index = 0;
+    // Start typing again
+    typeWriter();
+  }
+
+  // Start typing when page loads
+  setTimeout(typeWriter, 500); // Wait 500ms before starting
+</script>
+
 <script
+  is:inline
   define:vars={{
     navbarActiveItemID,
     activeClasses,
@@ -64,7 +147,9 @@ const links: Array<{
 >
   const activeItemElement = document.getElementById(navbarActiveItemID);
 
-  activeClasses.forEach((activeClass) => {
-    activeItemElement.classList.add(activeClass);
-  });
+  if (activeItemElement) {
+    activeClasses.forEach((activeClass) => {
+      activeItemElement.classList.add(activeClass);
+    });
+  }
 </script>

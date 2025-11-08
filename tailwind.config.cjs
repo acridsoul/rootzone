@@ -8,6 +8,10 @@ module.exports = {
         background: "#0c0f11",
         primary: "#F5F5F5",
       },
+      fontFamily: {
+        sans: ["VT323", "monospace"],
+        mono: ["VT323", "monospace"],
+      },
     },
   },
 };
